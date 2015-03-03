@@ -63,7 +63,7 @@ var App = React.createClass({
 			//
 			// `zIndex` specifies the zIndex to use while dragging.
 			//
-			// `onBeforeStart` is called when before onStart and can be used to abort the drag.
+			// `onBeforeStart` is called prior to onStart and can be used to abort dragging.
 			//
 			// `onStart` is called when dragging starts.
 			//
