@@ -22,6 +22,11 @@ var React = require('react'),
 	Draggable = require('react-draggable');
 
 var App = React.createClass({
+
+	handleBeforeStart: function (event) {
+		console.log('Event: ', event);
+	},
+
 	handleStart: function (event, ui) {
 		console.log('Event: ', event);
 		console.log('Position: ', ui.position);
@@ -58,6 +63,8 @@ var App = React.createClass({
 			//
 			// `zIndex` specifies the zIndex to use while dragging.
 			//
+			// `onBeforeStart` is called when before onStart and can be used to abort the drag.
+			//
 			// `onStart` is called when dragging starts.
 			//
 			// `onDrag` is called while dragging.
@@ -70,6 +77,7 @@ var App = React.createClass({
 				grid={[25, 25]}
 				start={{x: 25, y: 25}}
 				zIndex={100}
+				onBeforeStart={this.handleBeforeStart}
 				onStart={this.handleStart}
 				onDrag={this.handleDrag}
 				onStop={this.handleStop}>

@@ -19,6 +19,7 @@ describe('react-draggable', function () {
 		});
 
 		it('should honor props', function () {
+			function handleBeforeStart() {}
 			function handleStart() {}
 			function handleDrag() {}
 			function handleStop() {}
@@ -30,6 +31,7 @@ describe('react-draggable', function () {
 					cancel=".cancel"
 					grid={[10, 10]}
 					zIndex={1000}
+					onBeforeStart={handleBeforeStart}
 					onStart={handleStart}
 					onDrag={handleDrag}
 					onStop={handleStop}>
@@ -45,9 +47,24 @@ describe('react-draggable', function () {
 			expect(drag.props.cancel).toEqual('.cancel');
 			expect(drag.props.grid).toEqual([10, 10]);
 			expect(drag.props.zIndex).toEqual(1000);
+			expect(drag.props.onBeforeStart).toEqual(handleBeforeStart);
 			expect(drag.props.onStart).toEqual(handleStart);
 			expect(drag.props.onDrag).toEqual(handleDrag);
 			expect(drag.props.onStop).toEqual(handleStop);
+		});
+
+		it('should call onBeforeStart and prevent dragging from beginning', function () {
+			var called = false;
+      var started = false;
+			var drag = TestUtils.renderIntoDocument(
+				<Draggable onBeforeStart={function () { called = true; return false; }} onStart={function () { started = true; }}>
+					<div/>
+				</Draggable>
+			);
+
+			TestUtils.Simulate.mouseDown(drag.getDOMNode());
+			expect(called).toEqual(true);
+			expect(started).toEqual(false);
 		});
 
 		it('should call onStart when dragging begins', function () {
